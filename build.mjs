@@ -19,6 +19,8 @@ cpSync(join(here, 'assets'), join(out, 'assets'), {
   recursive: true,
   filter: (src) => !src.includes('_originals'),
 });
+// Browsers and crawlers also look for /favicon.ico at the site root.
+cpSync(join(here, 'assets', 'favicon.ico'), join(out, 'favicon.ico'));
 
 const pages = {
   'index.html': home(),

@@ -106,7 +106,10 @@ export function page({ root = '', title, description = brand.description, active
 <meta property="og:description" content="${description}">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#854ff7">
-<link rel="icon" href="${root}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="${root}assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="${root}assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="${root}assets/icon-192.png">
+<link rel="apple-touch-icon" href="${root}assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

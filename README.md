@@ -33,7 +33,7 @@ Requires Node.js 18+. There is nothing to `npm install`.
 | Colours, fonts, spacing, components | `assets/css/style.css` (tokens at the top) |
 | Interactions (theme toggle, slider, filters, form) | `assets/js/main.js` |
 | Page layouts / sections | `src/pages/*.mjs`, `src/sections.mjs`, `src/layout.mjs` |
-| Logo | `assets/logo.svg`, `assets/favicon.svg` (also inlined in `src/layout.mjs`) |
+| Logo | `assets/logo.svg` (also inlined in `src/layout.mjs`); favicon = the "G" cropped from the logo PNG: `assets/favicon.ico`, `icon-32.png`, `icon-192.png`, `apple-touch-icon.png` |
 
 After editing anything in `src/` or `assets/`, run `npm run build` again.
 
