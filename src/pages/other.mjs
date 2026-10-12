@@ -44,7 +44,7 @@ export function contact() {
     ['clock', 'Hours', brand.hours],
   ];
   const body = `${pageHero(root, [['Contact']], 'Contact', 'Let’s build your<br><span class="text-gradient">growth engine.</span>', 'Tell us about your business and goals. We reply within one business day with next steps and a free audit.')}
-<section class="section" style="padding-top:1rem"><div class="container contact-grid">
+<section class="section" style="padding-top:2.5rem"><div class="container contact-grid">
   <div class="info-list">${info
     .map(([ic, label, value, href], i) => {
       const inner = `<span class="ic">${icon(ic)}</span><div><span>${label}</span><strong>${value}</strong></div>`;

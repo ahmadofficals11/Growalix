@@ -12,7 +12,7 @@ const barHeights = [35, 52, 44, 60, 38, 70, 55, 48, 76, 62, 58, 84, 66, 72, 50, 
 
 export function heroVisual() {
   const side = ['Overview', 'Campaigns', 'Leads', 'SEO & AEO', 'Paid media', 'Reports'];
-  return `<div class="hero-visual reveal" ${d(3)}>
+  return `<div class="hero-visual reveal rv-spin" ${d(3)}>
   <div class="frame glass float-slow">
     <div class="dash">
       <div class="dash-side">${side.map((s, i) => `<div class="row${i === 0 ? ' on' : ''}"><i></i>${s}</div>`).join('')}<div class="plan">Growth plan<br><span style="opacity:.7">Renews in 12 days</span><b>Upgrade</b></div></div>
@@ -58,7 +58,7 @@ export const serviceCard = (root, s, i) => `<a class="card service-card reveal" 
 
 export function servicesSection(root, { head = true } = {}) {
   return `<section class="section" id="services"><div class="container">
-  ${head ? `<div class="section-head split"><div class="reveal">${eyebrow('Capabilities')}<h2 class="h-lg">Twelve services,<br><span class="text-gradient">one growth team.</span></h2></div><p class="lead reveal" ${d(1)}>Every channel your customers use — run by specialists who share one strategy, one dashboard and one goal: revenue.</p></div>` : ''}
+  ${head ? `<div class="section-head split"><div class="reveal">${eyebrow('Capabilities')}<h2 class="h-lg">Twelve services,<br><span class="text-gradient">one growth team.</span></h2></div><p class="lead reveal rv-right" ${d(1)}>Every channel your customers use — run by specialists who share one strategy, one dashboard and one goal: revenue.</p></div>` : ''}
   <div class="services-grid">
     ${services.map((s, i) => serviceCard(root, s, i)).join('')}
   </div>
@@ -124,7 +124,7 @@ export function studioSection(root) {
     .join('');
 
   return `<section class="section"><div class="container studio-grid">
-  <div class="studio-visual reveal">
+  <div class="studio-visual reveal rv-left">
     <div class="orbits" aria-hidden="true">
       ${orbitHtml}
       <span class="core float-slow">${logoMark()}</span>
@@ -134,8 +134,8 @@ export function studioSection(root) {
   </div>
   <div>
     <div class="reveal">${eyebrow('The agency')}</div>
-    <h2 class="h-lg reveal" ${d(1)} style="margin-top:1.5rem">A lean team with an <span class="text-gradient">unreasonable</span> standard.</h2>
-    <p class="lead reveal" ${d(2)} style="margin-top:1.5rem">We started with one channel and one rule: never run a campaign we wouldn’t pay for ourselves. Today that rule covers twelve services — and it still kills more ideas than any deadline.</p>
+    <h2 class="h-lg reveal rv-right" style="--d:${1 * 80}ms;margin-top:1.1rem">A lean team with an <span class="text-gradient">unreasonable</span> standard.</h2>
+    <p class="lead reveal" style="--d:${2 * 80}ms;margin-top:1.1rem">We started with one channel and one rule: never run a campaign we wouldn’t pay for ourselves. Today that rule covers twelve services — and it still kills more ideas than any deadline.</p>
     <div class="mv">
       <div class="card reveal" ${d(2)}>${icon('target')}<h4>Mission</h4><p>Turn marketing spend into measurable, compounding revenue.</p></div>
       <div class="card reveal" ${d(3)}>${icon('compass')}<h4>Vision</h4><p>Be the only growth partner a business ever needs.</p></div>
@@ -150,8 +150,8 @@ export function studioSection(root) {
 export const whySection = () => `<section class="section"><div class="container why-grid">
   <div>
     <div class="reveal">${eyebrow('Why work with us')}</div>
-    <h2 class="h-lg reveal" ${d(1)} style="margin-top:1.5rem">The reasons clients <span class="text-gradient">stay for years.</span></h2>
-    <p class="lead reveal" ${d(2)} style="margin-top:1.5rem">Most of our engagements turn into long-term partnerships. Here is what every service is measured against.</p>
+    <h2 class="h-lg reveal rv-drop" style="--d:${1 * 80}ms;margin-top:1.1rem">The reasons clients <span class="text-gradient">stay for years.</span></h2>
+    <p class="lead reveal" style="--d:${2 * 80}ms;margin-top:1.1rem">Most of our engagements turn into long-term partnerships. Here is what every service is measured against.</p>
     <div class="result-card reveal" ${d(3)}>${results
       .map((r) => `<div class="result-row"><span class="ic">${icon(r.icon)}</span><div><strong>${r.title}</strong><span>${r.copy}</span></div></div>`)
       .join('')}</div>
@@ -162,7 +162,7 @@ export const whySection = () => `<section class="section"><div class="container 
 // ---------- process ----------
 export function processSection({ steps = process.map((p) => [p.title, p.copy]), title = 'A process with <span class="text-gradient">no black boxes.</span>', label = 'How we work' } = {}) {
   return `<section class="section process-wrap"><div class="container">
-  <div class="section-head"><div class="reveal">${eyebrow(label)}<h2 class="h-lg" style="max-width:760px">${title}</h2></div></div>
+  <div class="section-head"><div class="reveal rv-zoom">${eyebrow(label)}<h2 class="h-lg" style="max-width:760px">${title}</h2></div></div>
   <div class="steps${steps.length === 4 ? ' four' : ''}">${steps
     .map(([t, c], i) => `<div class="step reveal" ${d(i)}><span class="num">${String(i + 1).padStart(2, '0')}</span><h4>${t}</h4><p>${c}</p><div class="prog"><i data-w="${Math.round(((i + 1) / steps.length) * 100)}"></i></div></div>`)
     .join('')}</div>
@@ -173,11 +173,11 @@ export function processSection({ steps = process.map((p) => [p.title, p.copy]), 
 export const testimonialsSection = () => `<section class="section testi"><div class="container testi-grid" data-slider>
   <div>
     <div class="reveal">${eyebrow('Client stories')}</div>
-    <h2 class="h-lg reveal" ${d(1)} style="margin-top:1.5rem">Proof, in their<br><span class="text-gradient">own words.</span></h2>
-    <p class="lead reveal" ${d(2)} style="margin-top:1.5rem">One review from every service we run — ${testimonials.length} in total.</p>
+    <h2 class="h-lg reveal rv-left" style="--d:${1 * 80}ms;margin-top:1.1rem">Proof, in their<br><span class="text-gradient">own words.</span></h2>
+    <p class="lead reveal" style="--d:${2 * 80}ms;margin-top:1.1rem">One review from every service we run — ${testimonials.length} in total.</p>
     <div class="slider-nav reveal" ${d(3)}><button class="icon-btn" type="button" data-prev aria-label="Previous testimonial">${icon('arrowLeft')}</button><button class="icon-btn" type="button" data-next aria-label="Next testimonial">${icon('arrowRight')}</button></div>
   </div>
-  <div class="reveal" ${d(2)}>
+  <div class="reveal rv-right" ${d(2)}>
     <div class="slides">${testimonials
       .map((t) => `<figure class="slide glass"><div class="slide-top"><div class="stars">${icon('star').repeat(5)}</div><span class="svc-tag">${t.service}</span></div><blockquote>“${t.quote}”</blockquote><figcaption class="who"><span class="av">${t.initials}</span><div><strong>${t.name}</strong><span>${t.role}</span></div><span class="co">${t.company}</span></figcaption></figure>`)
       .join('')}</div>
@@ -186,8 +186,8 @@ export const testimonialsSection = () => `<section class="section testi"><div cl
 </div></section>`;
 
 // ---------- insights / case studies ----------
-export const postsSection = (root, { head = true } = {}) => `<section class="section" style="padding-top:0"><div class="container">
-  ${head ? `<div class="section-head split"><div class="reveal">${eyebrow('Insights')}<h2 class="h-lg">Case studies from the<br><span class="text-gradient">growth floor.</span></h2></div><div class="reveal" ${d(1)} style="justify-self:end"><a class="btn btn-ghost btn-sm" href="${root}case-studies.html">Read the case studies ${icon('arrowUpRight')}</a></div></div>` : ''}
+export const postsSection = (root, { head = true, afterBand = false } = {}) => `<section class="section"${afterBand ? '' : ' style="padding-top:0"'}><div class="container">
+  ${head ? `<div class="section-head split"><div class="reveal">${eyebrow('Case studies')}<h2 class="h-lg head-fx">Real campaigns.<br>Real <span class="text-gradient">growth stories.</span></h2><p class="lead" style="margin-top:1.2rem;max-width:460px">Three engagements — what we found, what we changed, and what happened next.</p><div class="case-chips">${caseStudies.map((c) => `<a class="case-chip" href="${root}services/${c.slug}.html"><i></i>${c.tag}</a>`).join('')}</div></div><div class="reveal" style="--d:${1 * 80}ms;justify-self:end"><a class="btn btn-ghost btn-sm" href="${root}case-studies.html">Read the case studies ${icon('arrowUpRight')}</a></div></div>` : ''}
   <div class="case-grid">${caseStudies
     .map(
       (c, i) => `<article class="card case-card reveal" ${d(i)}>
@@ -207,25 +207,31 @@ export const postsSection = (root, { head = true } = {}) => `<section class="sec
 export function contactForm(root, id = 'f') {
   return `<form class="card form reveal" ${d(1)} data-contact-form data-to="${brand.email}"${brand.formEndpoint ? ` data-endpoint="${brand.formEndpoint}"` : ''} novalidate>
   <h2 class="h-md">Start a project</h2>
-  <p class="muted" style="margin:.6rem 0 2rem">Fields marked * are required.</p>
+  <p class="muted" style="margin:.4rem 0 1.25rem;font-size:.85rem">Fields marked * are required.</p>
   <div class="form-grid">
     <div class="field"><label for="${id}-name">Full name *</label><input id="${id}-name" name="name" autocomplete="name" required></div>
     <div class="field"><label for="${id}-email">Work email *</label><input id="${id}-email" name="email" type="email" autocomplete="email" required></div>
     <div class="field"><label for="${id}-company">Company / website</label><input id="${id}-company" name="company" autocomplete="organization"></div>
     <div class="field"><label for="${id}-budget">Monthly budget</label><select id="${id}-budget" name="budget"><option value="">Select a range</option><option>Under $1,000</option><option>$1,000 – $3,000</option><option>$3,000 – $7,500</option><option>$7,500+</option><option>One-off project</option></select></div>
-    <fieldset class="field full" style="border:0;padding:0;margin:0"><legend style="font-size:.85rem;font-weight:600;margin-bottom:.6rem">Services you’re interested in</legend><div class="chips">${services
-      .map((s, i) => `<label><input type="checkbox" id="${id}-s${i}" name="services" value="${s.title}"><span>${s.title}</span></label>`)
-      .join('')}</div></fieldset>
+    <div class="field full" data-multi>
+      <label id="${id}-svc-l">Services you’re interested in</label>
+      <details class="multi-dd">
+        <summary aria-labelledby="${id}-svc-l"><span class="multi-val" data-multi-label>Select services</span>${icon('chevronDown')}</summary>
+        <div class="multi-panel">${services
+          .map((s, i) => `<label class="opt"><input type="checkbox" id="${id}-s${i}" name="services" value="${s.title}"><span>${s.title}</span></label>`)
+          .join('')}</div>
+      </details>
+    </div>
     <div class="field full"><label for="${id}-msg">Tell us about your goals</label><textarea id="${id}-msg" name="message" placeholder="What are you selling, who to, and what does success look like in 90 days?"></textarea></div>
   </div>
-  <button class="btn btn-primary" type="submit" style="margin-top:1.75rem">Send message ${icon('send')}</button>
+  <button class="btn btn-primary" type="submit" style="margin-top:1.25rem">Send message ${icon('send')}</button>
   <p class="form-msg" role="status" aria-live="polite"></p>
 </form>`;
 }
 
-export const contactFormSection = (root) => `<section class="section" id="start" style="padding-top:2rem"><div class="container">
-  <div class="section-head center reveal">${eyebrow('Get started')}<h2 class="h-lg">Tell us what you need,<br><span class="text-gradient">we’ll map the plan.</span></h2><p class="lead">Send us your goals and we’ll reply within one business day with next steps and a free audit.</p></div>
-  <div style="max-width:880px;margin-inline:auto">${contactForm(root, 'h')}</div>
+export const contactFormSection = (root) => `<section class="section" id="start" style="padding-top:2rem;padding-bottom:2.5rem"><div class="container">
+  <div class="section-head center reveal rv-drop">${eyebrow('Get started')}<h2 class="h-lg">Tell us what you need,<br><span class="text-gradient">we’ll map the plan.</span></h2><p class="lead">Send us your goals and we’ll reply within one business day with next steps and a free audit.</p></div>
+  <div style="max-width:720px;margin-inline:auto">${contactForm(root, 'h')}</div>
 </div></section>`;
 
 // ---------- case studies, full detail (Case Studies page) ----------
@@ -296,6 +302,6 @@ export function leadPopup(root) {
 
 // ---------- faq ----------
 export const faqSection = (root, list = faqs) => `<section class="section" style="padding-top:0"><div class="container faq-grid">
-  <div class="reveal"><h2 class="h-md">Frequently asked <span class="text-gradient">questions</span></h2><p class="muted" style="margin-top:1rem">Everything clients usually ask before the first call.</p><a class="btn btn-ghost btn-sm" style="margin-top:1.75rem" href="${root}contact.html">Ask us anything ${icon('arrowUpRight')}</a></div>
-  <div class="faq reveal" ${d(1)}>${list.map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f.q}${icon('chevronDown')}</summary><p>${f.a}</p></details>`).join('')}</div>
+  <div class="reveal rv-left"><h2 class="h-md">Frequently asked <span class="text-gradient">questions</span></h2><p class="muted" style="margin-top:1rem">Everything clients usually ask before the first call.</p><a class="btn btn-ghost btn-sm" style="margin-top:1.75rem" href="${root}contact.html">Ask us anything ${icon('arrowUpRight')}</a></div>
+  <div class="faq reveal rv-rise" ${d(1)}>${list.map((f, i) => `<details${i === 0 ? ' open' : ''}><summary>${f.q}${icon('chevronDown')}</summary><p>${f.a}</p></details>`).join('')}</div>
 </div></section>`;

@@ -84,15 +84,23 @@
     auto();
   });
 
-  // Lead popup — shown once per visitor, 3s after load.
+  // Lead popup — opens 3s after load. Closing it silences it for the rest of the
+  // browser session; submitting it silences it for 30 days. Add ?popup to any URL
+  // to force it open (handy when testing).
   $$('[data-popup]').forEach((pop) => {
-    const KEY = 'gx-popup-seen';
+    const SESSION = 'gx-popup-closed';
+    const DONE = 'gx-popup-done';
+    const force = /[?&]popup\b/.test(location.search);
     let seen = false;
-    try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+    try {
+      const done = parseInt(localStorage.getItem(DONE) || '0', 10);
+      seen = (done && Date.now() - done < 30 * 864e5) || sessionStorage.getItem(SESSION) === '1';
+    } catch (e) {}
+    if (force) seen = false;
     const close = () => {
       pop.hidden = true;
       document.body.classList.remove('no-scroll');
-      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      try { sessionStorage.setItem(SESSION, '1'); } catch (e) {}
     };
     const open = () => {
       if (pop.hidden === false) return;
@@ -106,7 +114,7 @@
     document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !pop.hidden) close(); });
     // Mark as seen on submit so a converting visitor never sees it again.
     const form = $('[data-contact-form]', pop);
-    if (form) form.addEventListener('submit', () => { try { localStorage.setItem(KEY, '1'); } catch (e) {} });
+    if (form) form.addEventListener('submit', () => { try { localStorage.setItem(DONE, String(Date.now())); } catch (e) {} });
     if (!seen) setTimeout(open, 3000);
   });
 
@@ -157,6 +165,53 @@
       msg.textContent = 'Opening your email app… if nothing happens, email us at ' + to;
     });
   });
+
+  // Multi-select dropdown ("Services you're interested in"): the checkboxes stay
+  // real form fields, this only keeps the summary text in sync and closes the list.
+  const multis = $$('[data-multi]');
+  multis.forEach((box) => {
+    const dd = $('.multi-dd', box);
+    const label = $('[data-multi-label]', box);
+    const boxes = $$('input[type=checkbox]', box);
+    const sync = () => {
+      const picked = boxes.filter((b) => b.checked).map((b) => b.value);
+      label.textContent = !picked.length ? 'Select services' : picked.length <= 2 ? picked.join(', ') : `${picked.length} services selected`;
+      label.classList.toggle('has-value', picked.length > 0);
+    };
+    boxes.forEach((b) => b.addEventListener('change', sync));
+    const form = box.closest('form');
+    if (form) form.addEventListener('reset', () => setTimeout(sync, 0));
+    dd.addEventListener('toggle', () => dd.open && multis.forEach((o) => { const od = $('.multi-dd', o); if (od !== dd) od.open = false; }));
+    sync();
+  });
+  document.addEventListener('click', (ev) => multis.forEach((m) => { const dd = $('.multi-dd', m); if (dd.open && !m.contains(ev.target)) dd.open = false; }));
+  document.addEventListener('keydown', (ev) => ev.key === 'Escape' && multis.forEach((m) => { $('.multi-dd', m).open = false; }));
+
+  // Services stack (phones): cards pin to the same spot and slide over one another.
+  // CSS does the sticky stacking; this only shrinks/dims a card as the next one covers it.
+  const stack = $('.services-grid');
+  const phone = window.matchMedia('(max-width: 699px)');
+  if (stack && !reduceMotion) {
+    const cards = $$('.service-card', stack);
+    cards.forEach((c, i) => c.style.setProperty('--i', i));
+    let queued = false;
+    const paint = () => {
+      queued = false;
+      cards.forEach((c, i) => {
+        const next = cards[i + 1];
+        if (!phone.matches || !next) { c.style.removeProperty('--p'); return; }
+        const gap = parseFloat(getComputedStyle(c).marginBottom) || 0;
+        const full = c.offsetHeight + gap;
+        const dist = next.getBoundingClientRect().top - c.getBoundingClientRect().top;
+        const p = Math.min(1, Math.max(0, (full - dist) / (full - 8)));
+        c.style.setProperty('--p', p.toFixed(3));
+      });
+    };
+    const queue = () => { if (!queued) { queued = true; requestAnimationFrame(paint); } };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    queue();
+  }
 
   // Newsletter (front-end only)
   $$('[data-newsletter]').forEach((f) =>
